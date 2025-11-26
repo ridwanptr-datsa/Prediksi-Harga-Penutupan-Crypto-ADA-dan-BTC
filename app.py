@@ -36,7 +36,7 @@ all_columns = (
 )
 
 # Initialize empty DataFrame with correct columns
-input_df = pd.DataFrame({col: [0] for col in columns})
+input_df = pd.DataFrame({col: [0] for col in all_columns})
 
 # Populate numeric features
 input_df["open"] = open_val
