@@ -14,6 +14,7 @@ st.write("Masukkan data untuk memprediksi nilai **close price**.")
 # Sidebar inputs
 st.sidebar.header("Input Fitur")
 
+date_val = st.sidebar.date_input("Date")
 open_val = st.sidebar.number_input("Open", value=0.0)
 high_val = st.sidebar.number_input("High", value=0.0)
 low_val = st.sidebar.number_input("Low", value=0.0)
