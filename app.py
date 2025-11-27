@@ -22,6 +22,9 @@ date_val = st.sidebar.date_input("Date")
 open_val = st.sidebar.number_input("Open", value=0.0)
 high_val = st.sidebar.number_input("High", value=0.0)
 low_val = st.sidebar.number_input("Low", value=0.0)
+volume_val = st.sidebar.number_input("Volume", value=0.0)
+daily_return_val = st.sidebar.number_input("Daily Return", value=0.0)
+range_val = st.sidebar.number_input("Range", value=0.0)
 
 ticker_val = st.sidebar.selectbox("Ticker", ["ADA", "BTC"])
 
@@ -40,7 +43,7 @@ ticker_cols = ["ticker_ADA", "ticker_BTC"]
 
 # Semua fitur model
 all_columns = (
-    ["open", "high", "low"] +
+    ["open", "high", "low", "volume", "daily_return", "range"] +
     ticker_cols + year_cols + month_cols
 )
 
@@ -53,6 +56,9 @@ input_df = pd.DataFrame({col: [0] for col in all_columns})
 input_df["open"] = open_val
 input_df["high"] = high_val
 input_df["low"] = low_val
+input_df["volume"] = volume_val
+input_df["daily_return"] = daily_return_val
+input_df["range"] = range_val
 
 # ===============================
 # Categorical: ticker
