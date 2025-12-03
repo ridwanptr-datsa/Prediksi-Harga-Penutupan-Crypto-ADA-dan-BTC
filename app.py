@@ -17,7 +17,6 @@ st.sidebar.header("Input Fitur")
 open_val = st.sidebar.number_input("Open", value=0.0)
 high_val = st.sidebar.number_input("High", value=0.0)
 low_val = st.sidebar.number_input("Low", value=0.0)
-close_val = st.sidebar.number_input("Close", value=0.0)
 
 ticker_val = st.sidebar.selectbox("Ticker", ["ADA", "BTC"])
 
@@ -33,9 +32,6 @@ if "high" in input_df.columns:
 
 if "low" in input_df.columns:
     input_df["low"] = low_val
-
-if "close" in input_df.columns:
-    input_df["close"] = close_val
 
 # One-hot encoding ticker jika kolomnya ada
 ticker_col = f"ticker_{ticker_val}"
