@@ -43,7 +43,7 @@ st.markdown('<div class="main-title">Aplikasi Prediksi Harga Penutupan Crypto</d
 st.markdown('<div class="sub">Model Machine Learning — Linear Regression</div>', unsafe_allow_html=True)
 
 # === Layout (2 columns) ===
-col1, col2 = st.columns([1, 1])
+col1 = st.columns([1, 1])
 
 with col1:
     st.markdown("### 🔧 Input Fitur")
@@ -55,14 +55,6 @@ with col1:
 
     ticker_val = st.selectbox("Ticker", ["ADA", "BTC"])
 
-    st.markdown('</div>', unsafe_allow_html=True)
-
-with col2:
-    st.markdown("### 📘 Informasi Model")
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.write("Jumlah fitur saat training:", len(model_features))
-    st.write("Beberapa fitur yang digunakan:")
-    st.write(model_features[:8])
     st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown("---")
