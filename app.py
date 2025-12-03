@@ -40,7 +40,7 @@ st.markdown(
 )
 
 # === Title ===
-st.markdown('<div class="main-title">Aplikasi Prediksi Harga Penutupan Crypto (BTC)</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">Aplikasi Prediksi Harga Penutupan Crypto (ADA dan BTC)</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub">Model Machine Learning — Linear Regression</div>', unsafe_allow_html=True)
 
 # === Input Section ===
