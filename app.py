@@ -32,6 +32,7 @@ st.markdown(
         padding: 20px;
         border-radius: 12px;
         box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
     }
     </style>
     ''',
@@ -42,30 +43,16 @@ st.markdown(
 st.markdown('<div class="main-title">Aplikasi Prediksi Harga Penutupan Crypto</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub">Model Machine Learning — Linear Regression</div>', unsafe_allow_html=True)
 
-# === Layout (2 columns) ===
-col1, col2 = st.columns([1, 1])
+# === Input Section ===
+st.markdown("### 🔧 Input Fitur")
+st.markdown('<div class="card">', unsafe_allow_html=True)
 
-with col1:
-    st.markdown("### 🔧 Input Fitur")
-    st.markdown('<div class="card">', unsafe_allow_html=True)
+open_val = st.number_input("Open", value=0.0)
+high_val = st.number_input("High", value=0.0)
+low_val = st.number_input("Low", value=0.0)
+ticker_val = st.selectbox("Ticker", ["ADA", "BTC"])
 
-    open_val = st.number_input("Open", value=0.0)
-    high_val = st.number_input("High", value=0.0)
-    low_val = st.number_input("Low", value=0.0)
-
-    ticker_val = st.selectbox("Ticker", ["ADA", "BTC"])
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
-with col2:
-    st.markdown("### 📘 Informasi Model")
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.write("Jumlah fitur saat training:", len(model_features))
-    st.write("Beberapa fitur yang digunakan:")
-    st.write(model_features[:8])
-    st.markdown('</div>', unsafe_allow_html=True)
-
-st.markdown("---")
+st.markdown('</div>', unsafe_allow_html=True)
 
 # === Prediction Button ===
 st.markdown("### 🚀 Prediksi Harga")
