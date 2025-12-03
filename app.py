@@ -1,16 +1,19 @@
-
 import streamlit as st
 import pandas as pd
 import pickle
 
-# Load trained Linear Regression model
+# Load trained model
 model = pickle.load(open("linear_regression_model.pkl", "rb"))
 
-# Streamlit app title
+# Ambil fitur yang digunakan saat training
+model_features = model.feature_names_in_
+
+# Streamlit title
 st.title("Aplikasi Prediksi Harga Penutupan Crypto (Linear Regression)")
 
-# Sidebar for user inputs
+# Sidebar input
 st.sidebar.header("Input Fitur")
+
 open_val = st.sidebar.number_input("Open", value=0.0)
 high_val = st.sidebar.number_input("High", value=0.0)
 low_val = st.sidebar.number_input("Low", value=0.0)
@@ -18,26 +21,29 @@ close_val = st.sidebar.number_input("Close", value=0.0)
 
 ticker_val = st.sidebar.selectbox("Ticker", ["ADA", "BTC"])
 
-# Define model feature columns (same order used during training)
-columns = [
-    "open", "high", "low", "close",
-    "ticker_ADA", "ticker_BTC"
-]
+# Buat DataFrame kosong sesuai fitur model
+input_df = pd.DataFrame([[0] * len(model_features)], columns=model_features)
 
-# Create DataFrame with initial zero values
-input_df = pd.DataFrame({col: [0] for col in columns})
+# Isi fitur numerik jika ada di model
+if "open" in input_df.columns:
+    input_df["open"] = open_val
 
-# Fill numeric features
-input_df["open"] = open_val
-input_df["high"] = high_val
-input_df["low"] = low_val
-input_df["close"] = close_val
+if "high" in input_df.columns:
+    input_df["high"] = high_val
 
-# One-hot encode ticker
-input_df[f"ticker_{ticker_val}"] = 1
+if "low" in input_df.columns:
+    input_df["low"] = low_val
 
-# Make prediction
+if "close" in input_df.columns:
+    input_df["close"] = close_val
+
+# One-hot encoding ticker jika kolomnya ada
+ticker_col = f"ticker_{ticker_val}"
+if ticker_col in input_df.columns:
+    input_df[ticker_col] = 1
+
+# Prediksi
 prediction = model.predict(input_df)[0]
 
-st.subheader("Hasil Prediksi (Close Price Crypto)")
+st.subheader("Hasil Prediksi Harga Penutupan Crypto")
 st.write(prediction)
