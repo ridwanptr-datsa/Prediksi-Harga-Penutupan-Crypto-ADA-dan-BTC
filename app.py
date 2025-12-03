@@ -40,7 +40,7 @@ st.markdown(
 )
 
 # === Title ===
-st.markdown('<div class="main-title">Aplikasi Prediksi Harga Penutupan Crypto (ADA dan BTC)</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">Aplikasi Prediksi Harga Penutupan Crypto (BTC)</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub">Model Machine Learning — Linear Regression</div>', unsafe_allow_html=True)
 
 # === Input Section ===
@@ -50,7 +50,7 @@ st.markdown('<div class="card">', unsafe_allow_html=True)
 open_val = st.number_input("Open", value=0.0)
 high_val = st.number_input("High", value=0.0)
 low_val = st.number_input("Low", value=0.0)
-ticker_val = st.selectbox("Ticker", ["ADA", "BTC"])
+ticker_val = st.selectbox("Ticker", ["BTC"])
 
 st.markdown('</div>', unsafe_allow_html=True)
 
