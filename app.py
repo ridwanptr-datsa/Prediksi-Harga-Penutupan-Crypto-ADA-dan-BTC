@@ -47,9 +47,9 @@ st.markdown('<div class="sub">Model Machine Learning — Linear Regression</div>
 st.markdown("### 🔧 Input Fitur")
 st.markdown('<div class="card">', unsafe_allow_html=True)
 
-open_val = st.number_input("Open", value=0.000000000, format="%.9f")
-high_val = st.number_input("High", value=0.000000000, format="%.9f")
-low_val = st.number_input("Low", value=0.000000000, format="%.9f")
+open_val = st.number_input("Open", value=0.0, format="%.9f")
+high_val = st.number_input("High", value=0.0, format="%.9f")
+low_val = st.number_input("Low", value=0.0, format="%.9f")
 ticker_val = st.selectbox("Ticker", ["BTC"])
 
 st.markdown('</div>', unsafe_allow_html=True)
