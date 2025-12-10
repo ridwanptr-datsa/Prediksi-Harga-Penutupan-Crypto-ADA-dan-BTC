@@ -68,7 +68,7 @@ with col1:
 with col2:
 
     # --- Judul Grafik tetap tampil ---
-    st.markdown("### 📈 Ilustrasi Grafik Fitur & Prediksi Close")
+    st.markdown("### 📈 Ilustrasi Grafik Fitur")
 
     if pred_btn:
 
@@ -108,7 +108,7 @@ with col2:
         st.info("Masukkan input dan tekan **Prediksi** untuk menampilkan grafik.")
 
     # --- Judul Hasil Prediksi tetap tampil ---
-    st.markdown("### 🎯 Hasil Prediksi")
+    st.markdown("### 🎯 Hasil Prediksi Close")
 
     if pred_btn:
         st.markdown(
