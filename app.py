@@ -69,52 +69,54 @@ with col2:
 
     st.markdown("### 📈 Ilustrasi Grafik Fitur")
 
-    # ----------------- Live Preview Grafik -----------------
-    # Jika ingin prediksi live tanpa tombol, bisa aktifkan bagian prediction di sini
-    preview_df = pd.DataFrame([[0] * len(model_features)], columns=model_features)
+    # Jika tombol belum ditekan → tidak ada grafik
+    if not pred_btn:
+        st.info("Masukkan input dan tekan **Prediksi** untuk menampilkan ilustrasi grafik fitur.")
+        st.markdown("### 🎯 Hasil Prediksi")
+        st.info("Masukkan input dan tekan **Prediksi** untuk hasil prediksi harga penutupan (close).")
+    else:
+        # ================= MULAI VISUALISASI SETELAH PREDIKSI =================
 
-    if "open" in preview_df.columns: preview_df["open"] = open_val
-    if "high" in preview_df.columns: preview_df["high"] = high_val
-    if "low" in preview_df.columns: preview_df["low"] = low_val
+        preview_df = pd.DataFrame([[0] * len(model_features)], columns=model_features)
 
-    ticker_col = f"ticker_{ticker_val}"
-    if ticker_col in preview_df.columns:
-        preview_df[ticker_col] = 1
+        if "open" in preview_df.columns: preview_df["open"] = open_val
+        if "high" in preview_df.columns: preview_df["high"] = high_val
+        if "low" in preview_df.columns: preview_df["low"] = low_val
 
-    try:
-        live_prediction = model.predict(preview_df)[0]
-    except:
-        live_prediction = 0
+        ticker_col = f"ticker_{ticker_val}"
+        if ticker_col in preview_df.columns:
+            preview_df[ticker_col] = 1
 
-    x_points = ["Open", "High", "Low", "Predicted Close"]
-    y_values = [open_val, high_val, low_val, live_prediction]
+        try:
+            live_prediction = model.predict(preview_df)[0]
+        except:
+            live_prediction = 0
 
-    # === Plotly interactive chart ===
-    fig = go.Figure()
+        x_points = ["Open", "High", "Low", "Predicted Close"]
+        y_values = [open_val, high_val, low_val, live_prediction]
 
-    fig.add_trace(go.Scatter(
-        x=x_points,
-        y=y_values,
-        mode='lines+markers',
-        marker=dict(size=10),
-        line=dict(width=3),
-        name="Live Update"
-    ))
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=x_points,
+            y=y_values,
+            mode='lines+markers',
+            marker=dict(size=10),
+            line=dict(width=3),
+            name="Live Update"
+        ))
 
-    fig.update_layout(
-        title="Perubahan Fitur & Prediksi",
-        xaxis_title="Fitur",
-        yaxis_title="Harga (USD)",
-        template="plotly_white",
-        hovermode="x"
-    )
+        fig.update_layout(
+            title="Perubahan Fitur & Prediksi",
+            xaxis_title="Fitur",
+            yaxis_title="Harga (USD)",
+            template="plotly_white",
+            hovermode="x"
+        )
 
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
-    # ----------------- Hasil Prediksi -----------------
-    st.markdown("### 🎯 Hasil Prediksi")
-
-    if pred_btn:
+        # ----------------- Hasil Prediksi -----------------
+        st.markdown("### 🎯 Hasil Prediksi")
         st.markdown(
             f'''
             <div class="card" style="text-align:center;">
@@ -124,5 +126,3 @@ with col2:
             ''',
             unsafe_allow_html=True
         )
-    else:
-        st.info("Masukkan input dan tekan **Prediksi** untuk hasil final.")
