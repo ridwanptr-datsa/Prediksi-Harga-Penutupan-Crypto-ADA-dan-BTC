@@ -121,4 +121,4 @@ with col2:
             unsafe_allow_html=True
         )
     else:
-        st.warning("Belum ada prediksi. Isi data lalu tekan tombol **Prediksi**.")
+        st.warning("Belum ada prediksi. Masukkan input dan tekan **Prediksi**.")
