@@ -67,6 +67,9 @@ with col1:
 # ================= KOLOM OUTPUT: GRAFIK + HASIL PREDIKSI (KANAN) =================
 with col2:
 
+    # --- Judul Grafik tetap tampil ---
+    st.markdown("### 📈 Ilustrasi Grafik Fitur & Prediksi Close")
+
     if pred_btn:
 
         # Buat DataFrame kosong sesuai fitur model
@@ -88,9 +91,7 @@ with col2:
         # Lakukan prediksi
         prediction = model.predict(input_df)[0]
 
-        # === ILUSTRASI GRAFIK ===
-        st.markdown("### 📈 Ilustrasi Grafik Fitur & Prediksi Close")
-
+        # === GRAFIK ===
         fig, ax = plt.subplots(figsize=(8, 4))
         x_points = ["Open", "High", "Low", "Predicted Close"]
         y_values = [open_val, high_val, low_val, prediction]
@@ -102,8 +103,14 @@ with col2:
 
         st.pyplot(fig)
 
-        # === Hasil Prediksi ===
-        st.markdown("### 🎯 Hasil Prediksi")
+    else:
+        # Placeholder grafik sebelum prediksi
+        st.info("Masukkan input dan tekan **Prediksi** untuk menampilkan grafik.")
+
+    # --- Judul Hasil Prediksi tetap tampil ---
+    st.markdown("### 🎯 Hasil Prediksi")
+
+    if pred_btn:
         st.markdown(
             f'''
             <div class="card" style="text-align:center;">
@@ -113,3 +120,5 @@ with col2:
             ''',
             unsafe_allow_html=True
         )
+    else:
+        st.warning("Belum ada prediksi. Isi data lalu tekan tombol **Prediksi**.")
