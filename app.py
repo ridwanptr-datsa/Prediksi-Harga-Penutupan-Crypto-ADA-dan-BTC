@@ -53,7 +53,6 @@ col1, col2 = st.columns([1, 1])
 # ======================== KOLOM INPUT (KIRI) ==========================
 with col1:
     st.markdown("### 🔧 Input Fitur")
-    st.markdown('<div class="card">', unsafe_allow_html=True)
 
     open_val = st.number_input("Open", value=0.0, format="%.12f")
     high_val = st.number_input("High", value=0.0, format="%.12f")
@@ -103,7 +102,7 @@ with col2:
     ))
 
     fig.update_layout(
-        title="Perubahan Fitur & Prediksi Secara Real-Time",
+        title="Perubahan Fitur & Prediksi",
         xaxis_title="Fitur",
         yaxis_title="Harga (USD)",
         template="plotly_white",
