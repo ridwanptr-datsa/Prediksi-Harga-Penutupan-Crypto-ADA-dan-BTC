@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 import pickle
 
 # Load trained model
@@ -67,58 +68,62 @@ with col1:
 # ================= KOLOM OUTPUT: GRAFIK + HASIL PREDIKSI (KANAN) =================
 with col2:
 
-    # --- Judul Grafik tetap tampil ---
     st.markdown("### 📈 Ilustrasi Grafik Fitur")
 
-    if pred_btn:
+    # ----------------- Live Preview Grafik -----------------
+    # Jika ingin prediksi live tanpa tombol, bisa aktifkan bagian prediction di sini
+    preview_df = pd.DataFrame([[0] * len(model_features)], columns=model_features)
 
-        # Buat DataFrame kosong sesuai fitur model
-        input_df = pd.DataFrame([[0] * len(model_features)], columns=model_features)
+    if "open" in preview_df.columns: preview_df["open"] = open_val
+    if "high" in preview_df.columns: preview_df["high"] = high_val
+    if "low" in preview_df.columns: preview_df["low"] = low_val
 
-        # Isi fitur numerik
-        if "open" in input_df.columns:
-            input_df["open"] = open_val
-        if "high" in input_df.columns:
-            input_df["high"] = high_val
-        if "low" in input_df.columns:
-            input_df["low"] = low_val
+    ticker_col = f"ticker_{ticker_val}"
+    if ticker_col in preview_df.columns:
+        preview_df[ticker_col] = 1
 
-        # One-hot encode ticker
-        ticker_col = f"ticker_{ticker_val}"
-        if ticker_col in input_df.columns:
-            input_df[ticker_col] = 1
+    try:
+        live_prediction = model.predict(preview_df)[0]
+    except:
+        live_prediction = 0
 
-        # Lakukan prediksi
-        prediction = model.predict(input_df)[0]
+    x_points = ["Open", "High", "Low", "Predicted Close"]
+    y_values = [open_val, high_val, low_val, live_prediction]
 
-        # === GRAFIK ===
-        fig, ax = plt.subplots(figsize=(8, 4))
-        x_points = ["Open", "High", "Low", "Predicted Close"]
-        y_values = [open_val, high_val, low_val, prediction]
+    # === Plotly interactive chart ===
+    fig = go.Figure()
 
-        ax.plot(x_points, y_values, marker='o', linewidth=2)
-        ax.set_title("Ilustrasi Nilai Open, High, Low, dan Prediksi Close", fontsize=12)
-        ax.set_ylabel("Harga (USD)")
-        ax.grid(True, linestyle="--", alpha=0.3)
+    fig.add_trace(go.Scatter(
+        x=x_points,
+        y=y_values,
+        mode='lines+markers',
+        marker=dict(size=10),
+        line=dict(width=3),
+        name="Live Update"
+    ))
 
-        st.pyplot(fig)
+    fig.update_layout(
+        title="Perubahan Fitur & Prediksi Secara Real-Time",
+        xaxis_title="Fitur",
+        yaxis_title="Harga (USD)",
+        template="plotly_white",
+        hovermode="x"
+    )
 
-    else:
-        # Placeholder grafik sebelum prediksi
-        st.info("Masukkan input dan tekan **Prediksi** untuk menampilkan grafik.")
+    st.plotly_chart(fig, use_container_width=True)
 
-    # --- Judul Hasil Prediksi tetap tampil ---
-    st.markdown("### 🎯 Hasil Prediksi Close")
+    # ----------------- Hasil Prediksi -----------------
+    st.markdown("### 🎯 Hasil Prediksi")
 
     if pred_btn:
         st.markdown(
             f'''
             <div class="card" style="text-align:center;">
                 <h2 style="color:#2E86C1;">Prediksi Close Price</h2>
-                <h1 style="color:#4CAF50; font-size:42px;">{prediction:.12f}</h1>
+                <h1 style="color:#4CAF50; font-size:42px;">{live_prediction:.12f}</h1>
             </div>
             ''',
             unsafe_allow_html=True
         )
     else:
-        st.warning("Belum ada prediksi. Masukkan input dan tekan **Prediksi**.")
+        st.info("Masukkan input dan tekan **Prediksi** untuk hasil final.")
