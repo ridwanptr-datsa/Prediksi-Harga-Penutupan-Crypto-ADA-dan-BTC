@@ -1,6 +1,6 @@
-
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 import pickle
 
 # Load trained model
@@ -61,10 +61,11 @@ pred_btn = st.button("Prediksi", use_container_width=True)
 
 # === Prediction Logic ===
 if pred_btn:
+
     # Buat DataFrame kosong sesuai fitur model
     input_df = pd.DataFrame([[0] * len(model_features)], columns=model_features)
 
-    # Isi fitur numerik jika tersedia pada model
+    # Isi fitur numerik
     if "open" in input_df.columns:
         input_df["open"] = open_val
 
@@ -82,7 +83,22 @@ if pred_btn:
     # Lakukan prediksi
     prediction = model.predict(input_df)[0]
 
-    # Tampilkan hasil dalam card
+    # === ILUSTRASI GRAFIK ===
+    st.markdown("### 📈 Ilustrasi Grafik Fitur & Prediksi Close")
+
+    fig, ax = plt.subplots(figsize=(8, 4))
+    x_points = ["Open", "High", "Low", "Predicted Close"]
+    y_values = [open_val, high_val, low_val, prediction]
+
+    ax.plot(x_points, y_values, marker='o', linewidth=2)
+    ax.set_title("Ilustrasi Nilai Open, High, Low, dan Prediksi Close", fontsize=12)
+    ax.set_ylabel("Harga (USD)")
+    ax.grid(True, linestyle="--", alpha=0.3)
+
+    # Tampilkan grafik
+    st.pyplot(fig)
+
+    # === Hasil Prediksi ===
     st.markdown("### 🎯 Hasil Prediksi")
     st.markdown(
         f'''
