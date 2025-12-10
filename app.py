@@ -44,68 +44,72 @@ st.markdown(
 st.markdown('<div class="main-title">Aplikasi Prediksi Harga Penutupan Crypto (BTC)</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub">Model Machine Learning — Linear Regression</div>', unsafe_allow_html=True)
 
-# === Input Section ===
-st.markdown("### 🔧 Input Fitur")
-st.markdown('<div class="card">', unsafe_allow_html=True)
+# =====================================================================
+#                  BAGI TAMPILAN MENJADI DUA KOLOM
+# =====================================================================
+col1, col2 = st.columns([1, 1])
 
-open_val = st.number_input("Open", value=0.0, format="%.12f")
-high_val = st.number_input("High", value=0.0, format="%.12f")
-low_val = st.number_input("Low", value=0.0, format="%.12f")
-ticker_val = st.selectbox("Ticker", ["BTC"])
+# ======================== KOLOM INPUT (KIRI) ==========================
+with col1:
+    st.markdown("### 🔧 Input Fitur")
+    st.markdown('<div class="card">', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)
+    open_val = st.number_input("Open", value=0.0, format="%.12f")
+    high_val = st.number_input("High", value=0.0, format="%.12f")
+    low_val = st.number_input("Low", value=0.0, format="%.12f")
+    ticker_val = st.selectbox("Ticker", ["BTC"])
 
-# === Prediction Button ===
-st.markdown("### 🚀 Prediksi Harga")
-pred_btn = st.button("Prediksi", use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-# === Prediction Logic ===
-if pred_btn:
+    # Tombol Prediksi
+    pred_btn = st.button("Prediksi", use_container_width=True)
 
-    # Buat DataFrame kosong sesuai fitur model
-    input_df = pd.DataFrame([[0] * len(model_features)], columns=model_features)
+# ================= KOLOM OUTPUT: GRAFIK + HASIL PREDIKSI (KANAN) =================
+with col2:
 
-    # Isi fitur numerik
-    if "open" in input_df.columns:
-        input_df["open"] = open_val
+    if pred_btn:
 
-    if "high" in input_df.columns:
-        input_df["high"] = high_val
+        # Buat DataFrame kosong sesuai fitur model
+        input_df = pd.DataFrame([[0] * len(model_features)], columns=model_features)
 
-    if "low" in input_df.columns:
-        input_df["low"] = low_val
+        # Isi fitur numerik
+        if "open" in input_df.columns:
+            input_df["open"] = open_val
+        if "high" in input_df.columns:
+            input_df["high"] = high_val
+        if "low" in input_df.columns:
+            input_df["low"] = low_val
 
-    # One-hot encode ticker
-    ticker_col = f"ticker_{ticker_val}"
-    if ticker_col in input_df.columns:
-        input_df[ticker_col] = 1
+        # One-hot encode ticker
+        ticker_col = f"ticker_{ticker_val}"
+        if ticker_col in input_df.columns:
+            input_df[ticker_col] = 1
 
-    # Lakukan prediksi
-    prediction = model.predict(input_df)[0]
+        # Lakukan prediksi
+        prediction = model.predict(input_df)[0]
 
-    # === ILUSTRASI GRAFIK ===
-    st.markdown("### 📈 Ilustrasi Grafik Fitur & Prediksi Close")
+        # === ILUSTRASI GRAFIK ===
+        st.markdown("### 📈 Ilustrasi Grafik Fitur & Prediksi Close")
 
-    fig, ax = plt.subplots(figsize=(8, 4))
-    x_points = ["Open", "High", "Low", "Predicted Close"]
-    y_values = [open_val, high_val, low_val, prediction]
+        fig, ax = plt.subplots(figsize=(8, 4))
+        x_points = ["Open", "High", "Low", "Predicted Close"]
+        y_values = [open_val, high_val, low_val, prediction]
 
-    ax.plot(x_points, y_values, marker='o', linewidth=2)
-    ax.set_title("Ilustrasi Nilai Open, High, Low, dan Prediksi Close", fontsize=12)
-    ax.set_ylabel("Harga (USD)")
-    ax.grid(True, linestyle="--", alpha=0.3)
+        ax.plot(x_points, y_values, marker='o', linewidth=2)
+        ax.set_title("Ilustrasi Nilai Open, High, Low, dan Prediksi Close", fontsize=12)
+        ax.set_ylabel("Harga (USD)")
+        ax.grid(True, linestyle="--", alpha=0.3)
 
-    # Tampilkan grafik
-    st.pyplot(fig)
+        st.pyplot(fig)
 
-    # === Hasil Prediksi ===
-    st.markdown("### 🎯 Hasil Prediksi")
-    st.markdown(
-        f'''
-        <div class="card" style="text-align:center;">
-            <h2 style="color:#2E86C1;">Prediksi Close Price</h2>
-            <h1 style="color:#4CAF50; font-size:42px;">{prediction:.12f}</h1>
-        </div>
-        ''',
-        unsafe_allow_html=True
-    )
+        # === Hasil Prediksi ===
+        st.markdown("### 🎯 Hasil Prediksi")
+        st.markdown(
+            f'''
+            <div class="card" style="text-align:center;">
+                <h2 style="color:#2E86C1;">Prediksi Close Price</h2>
+                <h1 style="color:#4CAF50; font-size:42px;">{prediction:.12f}</h1>
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
