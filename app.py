@@ -48,9 +48,9 @@ st.markdown('<div class="sub">Model Machine Learning — Linear Regression</div>
 st.markdown("### 🔧 Input Fitur")
 st.markdown('<div class="card">', unsafe_allow_html=True)
 
-open_val = st.number_input("Open", value=0.0, format="%.9f")
-high_val = st.number_input("High", value=0.0, format="%.9f")
-low_val = st.number_input("Low", value=0.0, format="%.9f")
+open_val = st.number_input("Open", value=0.0, format="%.12f")
+high_val = st.number_input("High", value=0.0, format="%.12f")
+low_val = st.number_input("Low", value=0.0, format="%.12f")
 ticker_val = st.selectbox("Ticker", ["BTC"])
 
 st.markdown('</div>', unsafe_allow_html=True)
@@ -104,7 +104,7 @@ if pred_btn:
         f'''
         <div class="card" style="text-align:center;">
             <h2 style="color:#2E86C1;">Prediksi Close Price</h2>
-            <h1 style="color:#4CAF50; font-size:42px;">{prediction:.9f}</h1>
+            <h1 style="color:#4CAF50; font-size:42px;">{prediction:.12f}</h1>
         </div>
         ''',
         unsafe_allow_html=True
