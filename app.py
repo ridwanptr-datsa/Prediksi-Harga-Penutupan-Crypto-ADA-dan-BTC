@@ -73,7 +73,7 @@ with col2:
     if not pred_btn:
         st.info("Masukkan input dan tekan **Prediksi** untuk menampilkan ilustrasi grafik fitur.")
         st.markdown("### 🎯 Hasil Prediksi")
-        st.info("Masukkan input dan tekan **Prediksi** untuk hasil prediksi harga penutupan (close).")
+        st.info("Masukkan input dan tekan **Prediksi** untuk hasil prediksi harga close.")
     else:
         # ================= MULAI VISUALISASI SETELAH PREDIKSI =================
 
